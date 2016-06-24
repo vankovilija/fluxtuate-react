@@ -1,0 +1,73 @@
+{
+  "name": "fluxtuate-react",
+  "logo": {
+    "file": "./logo.png"
+  },
+  "version": "0.0.2",
+  "description": "a view enabler for fluxtuate and react, enabling you to use react components as views with decorators",
+  "main": "lib/index.js",
+  "scripts": {
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vankovilija/fluxtuate-react.git"
+  },
+  "keywords": [
+    "injection",
+    "dependency",
+    "flux",
+    "mvc",
+    "mediator",
+    "delegate",
+    "event",
+    "plugin",
+    "react",
+    "es7",
+    "fluxtuate"
+  ],
+  "author": {
+    "name": "Ilija Vankov",
+    "email": "vankov.ilija@gmail.com",
+    "url": "https://github.com/vankovilija"
+  },
+  "contributors": [
+    {
+      "name": "Ilija Vankov",
+      "email": "vankov.ilija@gmail.com",
+      "url": "https://github.com/vankovilija"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "ilija",
+      "email": "vankov.ilija@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "babel": {
+    "presets": ["es2015", "react"],
+    "plugins": ["transform-object-rest-spread", "transform-decorators-legacy", "transform-class-properties"]
+  },
+  "dependencies": {
+    "babel-polyfill": "6.9.1",
+    "core-decorators": "^0.12.3",
+    "fluxtuate": "0.0.2",
+    "hoist-non-react-statics": "^1.2.0",
+    "lodash": "^4.13.1",
+    "react": "^15.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-class-properties": "^6.10.2",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "webpack": "^1.13.1"
+  },
+  "subdomain": "fluxtuate"
+}
