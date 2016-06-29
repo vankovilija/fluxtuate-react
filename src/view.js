@@ -1,3 +1,6 @@
+import {autoMediates} from "./_internals"
+import getProp from "./getProp"
+import chainFunctions from "fluxtuate/lib/utils/chainFunctions"
 import {Context} from "fluxtuate"
 import GUID from "fluxtuate/lib/utils/guid"
 import Delegator from "fluxtuate/lib/delegator"
@@ -6,9 +9,25 @@ import {fluxtuateView as fluxtuateViewProperty, viewDelegator, mediate, viewCrea
 import React, {Component, PropTypes} from "react"
 import hoistStatics from "hoist-non-react-statics"
 import {readonly} from "core-decorators"
+import {isArray} from "lodash/lang"
 
 const updateState = Symbol("fluxtuateReactMediator_updateState");
 const updateProps = Symbol("fluxtuateReactMediator_updateProps");
+
+function handleStateChange(newState) {
+    
+    if(!this.isMediated()) return;
+    
+    this[autoMediates].forEach((autoMediate)=>{
+        if(getProp(newState, autoMediate.stateKey) !== getProp(this.state, autoMediate.stateKey)) {
+            let mediateProps = autoMediate.mediateFunction.apply(this, newState);
+            if(!isArray(mediateProps)){
+                mediateProps = [mediateProps];
+            }
+            this.mediate.apply(this, [autoMediate.key, ...mediateProps]);
+        }
+    });
+}
 
 export default (component) => {
     let links = {};
@@ -17,6 +36,8 @@ export default (component) => {
     class FluxtuateComponent extends component {
         constructor(props, context) {
             super(props, context);
+            
+            this.setState = chainFunctions(handleStateChange.bind(this), this.setState);
 
             this[updateState] = (newState, callback) => {
                 this.setState(newState, callback);
