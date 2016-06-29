@@ -16,7 +16,7 @@ const updateProps = Symbol("fluxtuateReactMediator_updateProps");
 
 function handleStateChange(newState) {
     
-    if(!this.isMediated) return;
+    if(!this.isMediated || !this[autoMediates]) return;
     
     this[autoMediates].forEach((autoMediate)=>{
         if(getProp(newState, autoMediate.stateKey) !== getProp(this.state, autoMediate.stateKey)) {
