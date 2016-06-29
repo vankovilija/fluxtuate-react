@@ -1,29 +1,21 @@
-import {autoMediates} from "./_internals"
-import getProp from "./getProp"
+import {automediates} from "./_internals"
 
-function processMediateKey(stateKey, target, key, descriptor) {
+function processAutomediate(mediatorFunctionName, target, key, descriptor) {
 
     if(key === undefined) throw new Error(`You can only bind properties of a mediator!`);
 
-    let mediateFunction;
-    if(typeof descriptor.value === "function"){
-        mediateFunction = descriptor.value;
-    }else{
-        mediateFunction = (state)=>[getProp(state, stateKey)];
-    }
-
-    if(!target[autoMediates]) target[autoMediates] = [];
-    target[autoMediates].push({stateKey, key, mediateFunction});
+    if(!target[automediates]) target[automediates] = [];
+    target[automediates].push({mediatorFunctionName, key});
 
     descriptor.configurable = true;
 
     return descriptor;
 }
 
-export default function automediate(stateKey, ...args) {
+export default function automediate(mediatorFunctionName, ...args) {
     if (args.length === 0) {
-        return processMediateKey.bind(this, stateKey);
+        return processAutomediate.bind(this, mediatorFunctionName);
     } else if (args.length === 2) {
-        return processMediateKey.apply(this, [args[0], stateKey, ...args]);
+        return processAutomediate.apply(this, [args[0], mediatorFunctionName, ...args]);
     }
 }

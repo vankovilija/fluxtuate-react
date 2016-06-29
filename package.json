@@ -3,7 +3,7 @@
   "logo": {
     "file": "./logo.png"
   },
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "a view enabler for fluxtuate and react, enabling you to use react components as views with decorators",
   "main": "lib/index.js",
   "scripts": {

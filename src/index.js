@@ -1,5 +1,5 @@
 import ReactContext from "./context"
 import ReactView from "./view"
-import automediate from "./automediate"
+import onStateChange from "./on-state-change"
 
-export {ReactContext, ReactView, automediate};
+export {ReactContext, ReactView, onStateChange};

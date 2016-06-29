@@ -1,4 +1,4 @@
-import {autoMediates} from "./_internals"
+import {stateChangeCallbacks, automediates} from "./_internals"
 import getProp from "./getProp"
 import chainFunctions from "fluxtuate/lib/utils/chainFunctions"
 import {Context} from "fluxtuate"
@@ -9,22 +9,24 @@ import {fluxtuateView as fluxtuateViewProperty, viewDelegator, mediate, viewCrea
 import React, {Component, PropTypes} from "react"
 import hoistStatics from "hoist-non-react-statics"
 import {readonly} from "core-decorators"
-import {isArray} from "lodash/lang"
+import {isArray, isFunction} from "lodash/lang"
 
 const updateState = Symbol("fluxtuateReactMediator_updateState");
 const updateProps = Symbol("fluxtuateReactMediator_updateProps");
 
 function handleStateChange(newState) {
     
-    if(!this.isMediated || !this[autoMediates]) return;
+    if(!this[stateChangeCallbacks]) return;
     
-    this[autoMediates].forEach((autoMediate)=>{
-        if(getProp(newState, autoMediate.stateKey) !== getProp(this.state, autoMediate.stateKey)) {
-            let mediateProps = autoMediate.mediateFunction.apply(this, newState);
-            if(!isArray(mediateProps)){
-                mediateProps = [mediateProps];
+    this[stateChangeCallbacks].forEach((stateChangeCallback)=>{
+        if(!isFunction(this[stateChangeCallback.key])) return;
+
+        if(getProp(newState, stateChangeCallback.stateKey) !== getProp(this.state, stateChangeCallback.stateKey)) {
+            let functionProps = stateChangeCallback.stateProcessor.apply(this, newState);
+            if(!isArray(functionProps)){
+                functionProps = [functionProps];
             }
-            this.mediate.apply(this, [autoMediate.key, ...mediateProps]);
+            this[stateChangeCallback.key].apply(this, functionProps);
         }
     });
 }
@@ -56,6 +58,32 @@ export default (component) => {
             componentDelegator.attachDelegate(this);
 
             FluxtuateLink[viewDelegator].dispatch(viewCreated, this, FluxtuateLink, this.context.fluxtuateContext);
+            
+            if(this[automediates]){
+                this[automediates].forEach((automediate) => {
+                    let processFunction;
+                    if(isFunction(this[automediate.key])){
+                        processFunction = this[automediates.key];
+                    }else{
+                        processFunction = (...args)=>args;
+                    }
+                    
+                    Object.defineProperty(this, automediate.key, {
+                        value: (...args)=>{
+                            let mediateParams = processFunction.apply(this, args);
+                            let returnValue = mediateParams;
+                            if(!isArray(mediateParams)) {
+                                mediateParams = [mediateParams];
+                            }
+                            if(this.isMediated){
+                                this.mediate.apply(this, [automediate.mediatorFunctionName, ...mediateParams]);
+                            }
+                            return returnValue;
+                        },
+                        configurable: true
+                    })
+                });
+            }
 
             if(super.componentWillMount)
                 super.componentWillMount.apply(this, args);
