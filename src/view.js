@@ -63,7 +63,7 @@ export default (component) => {
                 this[automediates].forEach((automediate) => {
                     let processFunction;
                     if(isFunction(this[automediate.key])){
-                        processFunction = this[automediates.key];
+                        processFunction = this[automediate.key];
                     }else{
                         processFunction = (...args)=>args;
                     }
