@@ -22,7 +22,7 @@ function handleStateChange(newState) {
         if(!isFunction(this[stateChangeCallback.key])) return;
 
         if(getProp(newState, stateChangeCallback.stateKey) !== getProp(this.state, stateChangeCallback.stateKey)) {
-            let functionProps = stateChangeCallback.stateProcessor.apply(this, newState);
+            let functionProps = stateChangeCallback.stateProcessor.apply(this, [newState]);
             if(!isArray(functionProps)){
                 functionProps = [functionProps];
             }
