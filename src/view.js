@@ -14,6 +14,20 @@ import {isArray, isFunction} from "lodash/lang"
 const updateState = Symbol("fluxtuateReactMediator_updateState");
 const updateProps = Symbol("fluxtuateReactMediator_updateProps");
 
+function hasProp(object, prop){
+    let props = prop.split(".");
+    let testObject = object;
+    props.forEach((prop)=>{
+        if(testObject && testObject.hasOwnProperty && testObject.hasOwnProperty(prop)){
+            testObject = testObject[prop];
+        }else{
+            return false;
+        }
+    });
+
+    return true;
+}
+
 function handleStateChange(newState) {
     
     if(!this[stateChangeCallbacks]) return;
@@ -21,7 +35,9 @@ function handleStateChange(newState) {
     this[stateChangeCallbacks].forEach((stateChangeCallback)=>{
         if(!isFunction(this[stateChangeCallback.key])) return;
 
-        if(getProp(newState, stateChangeCallback.stateKey) !== getProp(this.state, stateChangeCallback.stateKey)) {
+        if(hasProp(newState, stateChangeCallback.stateKey) &&
+            getProp(newState, stateChangeCallback.stateKey) !== getProp(this.state, stateChangeCallback.stateKey)) 
+        {
             let functionProps = stateChangeCallback.stateProcessor.apply(this, [newState]);
             if(!isArray(functionProps)){
                 functionProps = [functionProps];
