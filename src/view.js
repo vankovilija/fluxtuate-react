@@ -17,13 +17,14 @@ const updateProps = Symbol("fluxtuateReactMediator_updateProps");
 function hasProp(object, prop){
     let props = prop.split(".");
     let testObject = object;
-    props.forEach((prop)=>{
+    for(let i =0 ; i < props.length; i++){
+        let prop = props[i];
         if(testObject && testObject.hasOwnProperty && testObject.hasOwnProperty(prop)){
             testObject = testObject[prop];
         }else{
             return false;
         }
-    });
+    }
 
     return true;
 }
