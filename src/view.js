@@ -198,7 +198,7 @@ export default (component) => {
 
     FluxtuateLink[viewDelegator] = new Delegator();
 
-    let view = hoistStatics(FluxtuateLink, FluxtuateComponent);
+    let view = hoistStatics(FluxtuateLink, component);
 
     view[fluxtuateViewProperty] = true;
 

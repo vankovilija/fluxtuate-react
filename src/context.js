@@ -1,6 +1,7 @@
 import {Context} from "fluxtuate"
 import React, {Component, PropTypes} from "react"
 import {isFunction} from "lodash/lang"
+import hoistStatics from "hoist-non-react-statics"
 
 function createContextView(configurationClass, component, ...args) {
     if(args.length > 0) {
@@ -45,7 +46,7 @@ function createContextView(configurationClass, component, ...args) {
         fluxtuateContext: PropTypes.instanceOf(Context)
     };
 
-    return FluxtuateReactContext;
+    return hoistStatics(FluxtuateReactContext, component);
 }
 
 export default (configurationClass, ...args)=>{
