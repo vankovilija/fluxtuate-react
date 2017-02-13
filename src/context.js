@@ -9,12 +9,12 @@ function createContextView(configurationClass, component, ...args) {
     }
 
     class FluxtuateReactContext extends Component {
-        getChildContext() {
-            return { fluxtuateContext: this.fluxtuateContext };
+        static get displayName() {
+            return (component.displayName || component.name) + "_fluxtuate_context";
         }
 
-        constructor(props, context) {
-            super(props, context);
+        getChildContext() {
+            return { fluxtuateContext: this.fluxtuateContext };
         }
 
         componentWillMount() {

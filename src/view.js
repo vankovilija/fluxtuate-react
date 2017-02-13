@@ -127,7 +127,7 @@ export default (component) => {
         }
 
         static get displayName() {
-            return component.name + "_" + id;
+            return component.displayName || component.name;
         }
     }
 
@@ -192,7 +192,7 @@ export default (component) => {
 
         @nameProperty
         static get displayName() {
-            return component.name + "_" + id;
+            return (component.displayName || component.name) + "_" + id;
         }
     }
 
