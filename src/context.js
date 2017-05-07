@@ -1,5 +1,6 @@
 import {Context} from "fluxtuate"
-import React, {Component, PropTypes} from "react"
+import React, {Component} from "react"
+import PropTypes from "prop-types"
 import {isFunction} from "lodash/lang"
 import hoistStatics from "hoist-non-react-statics"
 

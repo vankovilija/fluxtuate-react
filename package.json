@@ -3,7 +3,7 @@
   "logo": {
     "file": "./logo.png"
   },
-  "version": "0.0.55",
+  "version": "0.0.56",
   "description": "a view enabler for fluxtuate and react, enabling you to use react components as views with decorators",
   "main": "lib/index.js",
   "scripts": {
@@ -47,15 +47,23 @@
   ],
   "license": "MIT",
   "babel": {
-    "presets": ["es2015", "react"],
-    "plugins": ["transform-object-rest-spread", "transform-decorators-legacy", "transform-class-properties"]
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread",
+      "transform-decorators-legacy",
+      "transform-class-properties"
+    ]
   },
   "dependencies": {
     "babel-polyfill": "6.9.1",
     "core-decorators": "^0.12.3",
     "hoist-non-react-statics": "^1.2.0",
     "lodash": "^4.13.1",
-    "react": "^15.1.0"
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

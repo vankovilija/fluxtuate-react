@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from "react"
+import React from "react"
 import getOwnKeys from "fluxtuate/lib/utils/getOwnKeys"
 import {isObject} from "lodash/lang";
 
