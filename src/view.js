@@ -150,7 +150,7 @@ export default (component) => {
             this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
 
             this[updateProps] = (newProps) => {
-                this[setStateKey]({props: Object.assign(this.state.props, newProps)});
+                this[setStateKey]({props: Object.assign({}, this.state.props, newProps)});
             }
         }
 
